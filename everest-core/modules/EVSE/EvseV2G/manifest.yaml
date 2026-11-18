@@ -1,0 +1,157 @@
+# Copyright 2026, Battelle Energy Alliance, LLC, ALL RIGHTS RESERVED
+# This file has been modified from the original.
+
+description: >-
+  This module includes a DIN70121 and ISO15118-2 implementation provided by
+  chargebyte GmbH
+config:
+  device:
+    description: >-
+      Ethernet device used for HLC. Any local interface that has an ipv6
+      link-local and a MAC addr will work
+    type: string
+    default: eth0
+  supported_DIN70121:
+    description: The EVSE supports the DIN SPEC
+    type: boolean
+    default: true
+  supported_ISO15118_2:
+    description: The EVSE supports ISO15118-2
+    type: boolean
+    default: true
+  supported_electrical_charging_systems:
+    description: >-
+      Comma-separated list of ElectricalChargingSystem editions advertised in
+      the ESDPRes ElectricalChargingSystemExtension per ISO/PAS 15118-202:2025
+      §6.5.3 Tables 9-10 [V2G202-0054, 0067-0068]. Each token must match an
+      ASN.1 enumeration name. Valid tokens: iec61851-1-ed2, iec61851-1-ed3,
+      iec61851-1-ed4, iec61851-23-ed1, iec61851-23-ed2, iec61851-23-ed3,
+      iec61851-23-3-ed1, sae-j1772-201602, sae-j1772-201710, sae-j1772-202401,
+      sae-j3068-202207, sae-j3068-202409, sae-j3400-202409. Empty string falls
+      back to advertising every value defined in Table 10. Unknown tokens are
+      logged at warning level and ignored. Whitespace around commas is
+      tolerated.
+    type: string
+    default: ""
+  supported_control_pilot_bcb_toggle_support:
+    description: >-
+      Comma-separated list of ControlPilotBCBToggleSupport values advertised
+      in the ESDPRes ElectricalChargingSystemExtension per ISO/PAS
+      15118-202:2025 §6.5.3 Table 11 [V2G202-0069, 0070]. SLAC validation and
+      wakeup are independent capabilities — an EVSE that supports both should
+      list both. Valid tokens: slacValidation, wakeup. Empty string omits the
+      optional controlPilotBCBToggleSupport field from the encoded extension.
+    type: string
+    default: ""
+  supported_ac_grid_frequencies:
+    description: >-
+      Comma-separated list of AC grid frequencies in Hz advertised in the
+      ESDPRes ACChargingParametersExtension per ISO/PAS 15118-202:2025
+      §6.5.8 Table 22 [V2G202-0100]. This extension is emitted only when AC
+      charging is present in the configured ISO 15118 energy-transfer modes.
+      Valid values are integers in 0..255. Empty string falls back to 50 Hz.
+    type: string
+    default: "50"
+  max_contactor_celsius_temperature:
+    description: >-
+      Maximum contactor temperature in degrees Celsius, advertised in ESDPRes
+      ConductiveChargingInterfaceLimitations [V2G202-0103]. Per the standard
+      this is the EVSE's contactor hardware rating at the vehicle connector
+      or socket — not an arbitrary placeholder. Typical values are 80–105 °C
+      depending on the contactor part. Set to the rating from the contactor
+      manufacturer's spec sheet for this EVSE.
+    type: integer
+    default: 80
+  supported_pnc_emsp_identifiers:
+    description: >-
+      Comma-separated list of EMSP identifiers supported by this SECC. When set,
+      ESDPRes emits EMSPInfo for advertised authorization methods, including EIM
+      and, when TLS/Contract payment are available, pnc-2. When empty, ESDPRes
+      does not emit EMSPInfo and does not advertise the pnc-2 AuthorizationMethod.
+      Values are encoded as UTF8String EMSP identifiers in EMSPInfoExtension
+      [V2G202-0094..0097].
+    type: string
+    default: ""
+  tls_security:
+    description: >-
+      Controls how to handle encrypted communication
+    type: string
+    enum:
+    - prohibit
+    - allow
+    - force
+    default: allow
+  terminate_connection_on_failed_response:
+    description: >-
+      Controls how to handle a failed response code of the EVSE. If true the
+      V2G connection is terminated immediately on a failed response code, otherwise
+      the EV is responsible for closing of the V2G communication session with SessionStop.
+    type: boolean
+    default: false
+  tls_key_logging:
+    description: >-
+      Enable/Disable the export of TLS session keys (pre-master-secret)
+      during a TLS handshake. This log file can be used to decrypt TLS
+      sessions. Note that this option is for testing and simulation
+      purpose only
+    type: boolean
+    default: false
+  tls_key_logging_path:
+    description:  >-
+      Output directory for the TLS key log file
+    type: string
+    default: /tmp
+  tls_timeout:
+    description: >-
+      Set the TLS timeout in ms when establishing a tls connection 
+    type: integer
+    default: 15000
+  verify_contract_cert_chain:
+    description: >-
+      Specifies if the EVSE should verify the contract certificate
+      chain locally.
+    type: boolean
+    default: false
+  auth_timeout_pnc:
+    description: >-
+      Defines how many seconds the EVSE should wait for authorization in PnC case,
+      before the charging session is aborted.
+      Write 0 if the EVSE should wait indefinitely for PnC authorization.
+    type: integer
+    default: 55
+  auth_timeout_eim:
+    description: >-
+      Defines how many seconds the EVSE should wait for authorization in EIM case,
+      before the charging session is aborted.
+      Write 0 if the EVSE should wait indefinitely for EIM authorization.
+    type: integer
+    default: 300
+  enable_sdp_server:
+    description: >-
+      Enable the built-in SDP server
+    type: boolean
+    default: true
+provides:
+  charger:
+    interface: ISO15118_charger
+    description: >-
+      This module implements the ISO15118-2 implementation of
+      an AC or DC charger
+  extensions:
+    interface: iso15118_extensions
+    description: >-
+      This interface is used to share data between ISO15118 and OCPP modules
+      to support the requirements of the OCPP protocol
+requires:
+  security:
+    interface: evse_security
+  iso15118_vas:
+    interface: ISO15118_vas
+    min_connections: 0
+    max_connections: 128
+metadata:
+  license: https://opensource.org/licenses/Apache-2.0
+  authors:
+  - Fabian Hartung
+  - Mohannad Oraby
+  - Sebastian Lukas

@@ -1,0 +1,26 @@
+{
+	"supportedProtocols": [
+		"ISO_15118_2"
+	],
+	"supportedEnergyServices": [
+		"AC"
+	],
+	"energyTransferMode": "AC_three_phase_core",
+	"isCertInstallNeeded": false,
+	"useTls": true,
+	"evWorldManufacturerIdentifier": "1HG",
+	"evVehicleDescriptorSection": "PNCAC",
+	"evVehicleIndicatorSection": "EV",
+	"evccSoftwareVersion": "iso15118-2-pnc-ac-test",
+	"emspInfo": [
+		{
+			"emspIdentifiers": [
+				"USINL"
+			],
+			"authorizationMethods": [
+				"pnc-2"
+			]
+		}
+	],
+	"chargeLoopCycle": 10
+}

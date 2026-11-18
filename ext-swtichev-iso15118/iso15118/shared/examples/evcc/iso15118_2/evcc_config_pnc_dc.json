@@ -1,0 +1,26 @@
+{
+	"supportedProtocols": [
+		"ISO_15118_2"
+	],
+	"supportedEnergyServices": [
+		"DC"
+	],
+	"energyTransferMode": "DC_extended",
+	"isCertInstallNeeded": false,
+	"useTls": false,
+	"evWorldManufacturerIdentifier": "1HG",
+	"evVehicleDescriptorSection": "PNCDC",
+	"evVehicleIndicatorSection": "EV",
+	"evccSoftwareVersion": "iso15118-2-pnc-dc-test",
+	"emspInfo": [
+		{
+			"emspIdentifiers": [
+				"USINL"
+			],
+			"authorizationMethods": [
+				"pnc-2"
+			]
+		}
+	],
+	"chargeLoopCycle": 10
+}

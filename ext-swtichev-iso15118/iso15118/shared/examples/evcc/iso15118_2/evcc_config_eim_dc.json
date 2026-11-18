@@ -1,0 +1,16 @@
+{
+	"supportedProtocols": [
+		"ISO_15118_2"
+	],
+	"supportedEnergyServices": [
+		"DC"
+	],
+	"energyTransferMode": "DC_extended",
+	"isCertInstallNeeded": false,
+	"useTls": false,
+	"evWorldManufacturerIdentifier": "1HG",
+	"evVehicleDescriptorSection": "TESTDC",
+	"evVehicleIndicatorSection": "EV",
+	"evccSoftwareVersion": "iso15118-2-eim-dc-test",
+	"chargeLoopCycle": 10
+}

@@ -1,0 +1,15 @@
+{
+	"supportedProtocols": [
+		"ISO_15118_2"
+	],
+	"supportedEnergyServices": [
+		"AC"
+	],
+	"isCertInstallNeeded": false,
+	"useTls": false,
+	"evWorldManufacturerIdentifier": "1HG",
+	"evVehicleDescriptorSection": "TESTAC",
+	"evVehicleIndicatorSection": "EV",
+	"evccSoftwareVersion": "iso15118-2-eim-ac-test",
+	"chargeLoopCycle": 10
+}
